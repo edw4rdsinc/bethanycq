@@ -29,6 +29,15 @@
                             'teal-light': '#F0F7F9',
                             'gray-light': '#F8F9FA',
                         }
+                    },
+                    keyframes: {
+                        breathe: {
+                          '0%, 100%': { transform: 'scale(1)' },
+                          '50%': { transform: 'scale(1.1)' },
+                        }
+                    },
+                    animation: {
+                        breathe: 'breathe 3s ease-in-out infinite',
                     }
                 }
             }
@@ -71,7 +80,7 @@
                 <div class="max-w-3xl mx-auto">
                     <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">Bethany Families, Meet Smarter Housekeeping.</h1>
                     <p class="text-lg md:text-xl text-gray-600 mb-8">
-                        Bethany parents power the Silicon Forest — and still find time to cheer from the sidelines, help with homework, and plan for tomorrow. We take care of the cleaning, so your family gets the quality time it deserves.
+                        Your family’s time is too valuable for chores. Bethany parents power the Silicon Forest — and still find time to cheer from the sidelines, help with homework, and plan for tomorrow. We take care of the cleaning, so your family gets the quality time it deserves.
                     </p>
                     <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
                         👉 Book My Cleaner in Minutes
@@ -165,19 +174,19 @@
                     <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
                         <ul class="space-y-4">
                             <li class="flex items-start">
-                                <span class="text-2xl mr-3">🏠</span>
+                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0s;">🏠</span>
                                 <span><strong class="text-gray-800">Local Bethany housekeepers,</strong> not strangers from far away</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="text-2xl mr-3">✅</span>
+                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0.25s;">✅</span>
                                 <span><strong class="text-gray-800">Transparent quotes</strong> before you book</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="text-2xl mr-3">💳</span>
+                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0.5s;">💳</span>
                                 <span><strong class="text-gray-800">Secure deposits</strong> & easy scheduling</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="text-2xl mr-3">👨‍👩‍👧</span>
+                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0.75s;">👨‍👩‍👧</span>
                                 <span><strong class="text-gray-800">More time for family,</strong> less time cleaning</span>
                             </li>
                         </ul>
@@ -187,6 +196,25 @@
                     <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
                         Book a Trusted Cleaner
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-16 md:py-24 bg-brand-gray-light fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 max-w-2xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">What Bethany Families Are Saying</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100">
+                        <p class="text-gray-600 italic mb-4">"Absolutely life-changing. We got our weekends back! The cleaner was professional, thorough, and so friendly. It feels like we have a partner in keeping our home running smoothly."</p>
+                        <p class="font-semibold text-gray-800">- The Johnson Family</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100">
+                        <p class="text-gray-600 italic mb-4">"As two full-time working parents, this service has been a lifesaver. The booking process was incredibly simple, and the peace of mind is priceless. Highly recommend!"</p>
+                        <p class="font-semibold text-gray-800">- The Patels</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -209,9 +237,19 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-brand-gray-light text-center py-6">
+    <footer class="bg-brand-gray-light text-center py-8">
         <div class="container mx-auto px-6">
-            <p class="text-gray-600">Proudly serving Bethany families. Powered by Clean Quote.</p>
+            <div class="flex flex-col items-center space-y-4">
+                <p class="text-gray-600">Proudly serving Bethany families.</p>
+                <div class="flex items-center space-x-2 text-gray-500">
+                    <span>Powered by</span>
+                    <a href="https://www.cleanquote.co" target="_blank" rel="noopener noreferrer">
+                        <img src="https://placehold.co/120x30/0B2D39/FFFFFF?text=Clean+Quote" alt="Clean Quote Logo" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/120x30/0B2D39/FFFFFF?text=Clean+Quote';"
+                             class="h-6 opacity-80 hover:opacity-100 transition-opacity">
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
