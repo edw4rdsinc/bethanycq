@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bethany Home Clean | Smarter Housekeeping for Bethany Families</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        // Custom theme configuration for Tailwind CSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#FF5A1A',
+                            'orange-dark': '#E04F16',
+                            'teal-dark': '#0B2D39',
+                            'teal-light': '#F0F7F9',
+                            'gray-light': '#F8F9FA',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom styles for animations */
+        body {
+            background-color: #FFFFFF;
+        }
+        
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased font-sans">
+
+    <!-- Sticky Navigation Bar -->
+    <header id="top" class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-200">
+        <div class="container mx-auto px-6 py-4">
+            <a href="#top" class="text-xl font-bold text-gray-800 tracking-tight hover:text-brand-orange transition-colors">Bethany Home Clean</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Hero Section -->
+        <section class="text-center py-20 md:py-32 bg-brand-gray-light">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">Bethany Families, Meet Smarter Housekeeping.</h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8">
+                        Bethany parents power the Silicon Forest — and still find time to cheer from the sidelines, help with homework, and plan for tomorrow. We take care of the cleaning, so your family gets the quality time it deserves.
+                    </p>
+                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
+                        👉 Book My Cleaner in Minutes
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Local + Smart Section -->
+        <section class="py-16 md:py-24 fade-in-section">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Simple. Local. Smart.</h2>
+                    <p class="text-lg text-gray-600 mb-8">
+                        All it takes is your address, a few photos, and a debit card. We’ll connect you with trusted Bethany housekeepers who care about your home like it’s their own. It’s the simplest, smartest way to keep life moving smoothly.
+                    </p>
+                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
+                        See How Simple It Is
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="py-16 md:py-24 bg-brand-teal-light fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Clean Home, Zero Hassle</h2>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-x-12 gap-y-10">
+                    <!-- Step 1 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">1</div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Enter Your Address</h3>
+                            <p class="text-gray-600">Start by typing in your address. Your local cleaner’s welcome message pops up right away.</p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">2</div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Customize Your Quote</h3>
+                            <p class="text-gray-600">Pick the services you need, from a quick refresh to a full deep clean.</p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">3</div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Upload Photos</h3>
+                            <p class="text-gray-600">Snap a few pictures of your home so we can give you the most accurate quote possible.</p>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">4</div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Schedule & Secure Your Spot</h3>
+                            <p class="text-gray-600">Choose a time that works for your family and pay your deposit to lock it in.</p>
+                        </div>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="flex items-start space-x-4 md:col-span-2 md:justify-center">
+                         <div class="flex items-start space-x-4 max-w-md">
+                            <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">5</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-1 text-gray-800">Click Done & Relax</h3>
+                                <p class="text-gray-600">That’s it. We’ll take it from here — your Bethany home is in good hands.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
+                        Let's Get Started
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Bethany Families Trust Us Section -->
+        <section class="py-16 md:py-24 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                    <div class="prose lg:prose-lg text-gray-600">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Built for Bethany, With Bethany Families in Mind</h2>
+                        <p>Clean Quote is starting right here in Bethany — because no one understands the pace of life here better. We know the long hours at Intel, Nike, or Columbia Sportswear. We know the late-night homework sessions, the weekend soccer games, and the music recitals.</p>
+                        <p>That’s why we’re connecting families with local housekeepers who care about your home as much as you do. Each pro is handpicked, community-based, and committed to helping your family breathe a little easier.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">🏠</span>
+                                <span><strong class="text-gray-800">Local Bethany housekeepers,</strong> not strangers from far away</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">✅</span>
+                                <span><strong class="text-gray-800">Transparent quotes</strong> before you book</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">💳</span>
+                                <span><strong class="text-gray-800">Secure deposits</strong> & easy scheduling</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">👨‍👩‍👧</span>
+                                <span><strong class="text-gray-800">More time for family,</strong> less time cleaning</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center mt-16">
+                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
+                        Book a Trusted Cleaner
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing CTA Section -->
+        <section class="py-20 md:py-32 bg-brand-teal-dark text-white text-center fade-in-section">
+            <div class="container mx-auto px-6">
+                 <div class="max-w-3xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">A Cleaner Home, More Time Together.</h2>
+                    <p class="text-lg md:text-xl text-gray-300 mb-8">
+                        Bethany families deserve both — and now you can have it without the hassle. Get started today with just your address and a couple photos.
+                    </p>
+                    <a href="https://www.cleanquote.co" class="inline-block bg-white text-brand-teal-dark font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transform transition-all duration-300 ease-in-out">
+                        I Want Both!
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-gray-light text-center py-6">
+        <div class="container mx-auto px-6">
+            <p class="text-gray-600">Proudly serving Bethany families. Powered by Clean Quote.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.fade-in-section');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
