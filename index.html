@@ -3,277 +3,680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bethany Home Clean | Smarter Housekeeping for Bethany Families</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Bethany Clean Quote - Instant Cleaning Quotes via SMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <script>
-        // Custom theme configuration for Tailwind CSS
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            orange: '#FF5A1A',
-                            'orange-dark': '#E04F16',
-                            'teal-dark': '#0B2D39',
-                            'teal-light': '#F0F7F9',
-                            'gray-light': '#F8F9FA',
-                        }
-                    },
-                    keyframes: {
-                        breathe: {
-                          '0%, 100%': { transform: 'scale(1)' },
-                          '50%': { transform: 'scale(1.1)' },
-                        }
-                    },
-                    animation: {
-                        breathe: 'breathe 3s ease-in-out infinite',
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
-        /* Custom styles for animations */
         body {
-            background-color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF9F7; /* Eggshell White */
+            color: #2E2E2E; /* Deep Graphite */
+        }
+        /* Custom Colors */
+        .bg-eggshell { background-color: #FAF9F7; }
+        .bg-muted-sky { background-color: #B9C6D0; }
+        .bg-warm-sand { background-color: #D6BFA7; }
+        .bg-deep-graphite { background-color: #2E2E2E; }
+        .text-eggshell { color: #FAF9F7; }
+        .text-muted-sky { color: #B9C6D0; }
+        .text-warm-sand { color: #D6BFA7; }
+        .text-deep-graphite { color: #2E2E2E; }
+        .border-warm-sand { border-color: #D6BFA7; }
+        
+        /* Loading Animation */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FAF9F7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #B9C6D0; /* Muted Sky */
+            border-top-color: #2E2E2E; /* Deep Graphite */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
+        /* Section Transitions */
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+
+        /* FAQ Accordion */
+        .faq-item summary {
+            cursor: pointer;
+            outline: none;
+        }
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-item .icon {
+            transition: transform 0.2s;
+        }
+        .faq-item[open] .icon {
+            transform: rotate(45deg);
+        }
+
+        /* Scroll Animations */
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        
-        .fade-in-section.is-visible {
+        .fade-in-section.visible {
             opacity: 1;
             transform: translateY(0);
         }
     </style>
 </head>
-<body class="text-gray-800 antialiased font-sans">
+<body class="bg-eggshell">
 
-    <!-- Sticky Navigation Bar -->
-    <header id="top" class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-gray-200">
-        <div class="container mx-auto px-6 py-4">
-            <a href="#top" class="text-xl font-bold text-gray-800 tracking-tight hover:text-brand-orange transition-colors">Bethany Home Clean</a>
+    <!-- Loading Animation -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-eggshell/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="nav-link">
+                <!-- LOGO PLACEHOLDER -->
+                <img src="clean-quote-logo.jpg" alt="Bethany Clean Quote Logo" class="h-8 w-auto">
+                <span class="sr-only">Bethany Clean Quote</span>
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#home" class="nav-link text-deep-graphite hover:text-warm-sand transition">Home</a>
+                <a href="#terms" class="nav-link text-deep-graphite hover:text-warm-sand transition">Terms</a>
+                <a href="#privacy" class="nav-link text-deep-graphite hover:text-warm-sand transition">Privacy</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-deep-graphite">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#home" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition">Home</a>
+            <a href="#terms" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition">Terms</a>
+            <a href="#privacy" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition">Privacy</a>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main>
-
-        <!-- Hero Section -->
-        <section class="text-center py-20 md:py-32 bg-brand-gray-light">
-            <div class="container mx-auto px-6">
-                <div class="max-w-3xl mx-auto">
-                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">Bethany Families, Meet Smarter Housekeeping.</h1>
-                    <p class="text-lg md:text-xl text-gray-600 mb-8">
-                        Bethany parents power the Silicon Forest — and still find time to cheer from the sidelines, help with homework, and plan for tomorrow. We take care of the cleaning, so your family gets the quality time it deserves.
-                    </p>
-                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
-                        👉 Book My Cleaner in Minutes
+    <main id="main-content">
+        <!-- Home Page Content -->
+        <div id="home-content" class="page-content">
+            <!-- Hero Section -->
+            <section class="py-20 md:py-32 bg-eggshell text-center fade-in-section">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-4xl md:text-6xl font-bold text-deep-graphite leading-tight mb-4">Text. Book. Clean.</h1>
+                    <p class="text-lg md:text-xl text-deep-graphite/80 max-w-3xl mx-auto mb-8">Bethany parents power the Silicon Forest — and still find time to cheer from the sidelines, help with homework, and plan for tomorrow. We give you quotes AND bookings in 60 seconds, so your family gets the quality time it deserves.</p>
+                    <a href="sms:9714021326?&body=CLEAN" class="inline-block bg-muted-sky text-deep-graphite font-bold py-4 px-8 rounded-lg text-lg hover:bg-warm-sand transition-all transform hover:scale-105 shadow-lg">
+                        📱 Text CLEAN to 971-402-1326
                     </a>
+                    <p class="mt-2 text-sm text-deep-graphite/60">(or 971-40-CLEAN)</p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Local + Smart Section -->
-        <section class="py-16 md:py-24 fade-in-section">
-            <div class="container mx-auto px-6 text-center">
-                <div class="max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Simple. Local. Smart.</h2>
-                    <p class="text-lg text-gray-600 mb-8">
-                        All it takes is your address, a few photos, and a debit card. We’ll connect you with trusted Bethany housekeepers who care about your home like it’s their own. It’s the simplest, smartest way to keep life moving smoothly.
+            <!-- Value Proposition Section -->
+            <section class="py-16 bg-white fade-in-section">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-graphite mb-4">Simple. Local. Smart.</h2>
+                    <p class="text-lg text-deep-graphite/80 max-w-3xl mx-auto mb-6">
+                        Tired of playing phone tag with cleaning services? No more "let me call you back" or "I'll need to come look at your house first" or endless back-and-forth to find a time that works.
                     </p>
-                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
-                        See How Simple It Is
-                    </a>
+                    <p class="text-lg text-deep-graphite/80 max-w-3xl mx-auto">
+                        All it takes is a text message. Send us your address, get an instant quote, say YES, pick a time slot, and you're booked. Complete start-to-finish in under 60 seconds. No apps to download, no forms to fill out, no waiting around.
+                    </p>
+                     <a href="sms:9714021326?&body=CLEAN" class="mt-6 inline-block text-warm-sand font-semibold hover:underline">Text CLEAN to 971-402-1326 to try it now</a>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- How It Works Section -->
-        <section class="py-16 md:py-24 bg-brand-teal-light fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Clean Home, Zero Hassle</h2>
+            <!-- How It Works Section -->
+            <section class="py-16 bg-eggshell fade-in-section">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-deep-graphite mb-12">Quote & Book in 60 Seconds</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        <div class="p-6 bg-white rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Step 1: Text "CLEAN"</h3>
+                            <p class="text-deep-graphite/80">Send CLEAN to 971-402-1326. Your local cleaner responds instantly.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Step 2: Share Your Zip Code</h3>
+                            <p class="text-deep-graphite/80">We serve Bethany (97229) and North Plains (97291, 97133). Just text your zip.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-lg shadow-md">
+                           <h3 class="text-xl font-semibold mb-2">Step 3: Send Your Address</h3>
+                            <p class="text-deep-graphite/80">Type your home address. We look up your square footage automatically.</p>
+                        </div>
+                         <div class="p-6 bg-white rounded-lg shadow-md">
+                           <h3 class="text-xl font-semibold mb-2">Step 4: Choose Your Service</h3>
+                            <p class="text-deep-graphite/80">Pick what you need: Standard, Deep, or Move-Out Clean.</p>
+                        </div>
+                         <div class="p-6 bg-white rounded-lg shadow-md">
+                           <h3 class="text-xl font-semibold mb-2">Step 5: Get Your Instant Quote</h3>
+                            <p class="text-deep-graphite/80">Boom! Your price appears immediately. No surprises, no hidden fees.</p>
+                        </div>
+                         <div class="p-6 bg-white rounded-lg shadow-md">
+                           <h3 class="text-xl font-semibold mb-2">Step 6: Book & Schedule</h3>
+                            <p class="text-deep-graphite/80">Say YES to book. Pick a time slot - you're booked, scheduled, and confirmed.</p>
+                        </div>
+                    </div>
+                     <p class="text-center mt-8 text-deep-graphite/80">Total time: Under 60 seconds from first text to confirmed booking.</p>
                 </div>
-                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-x-12 gap-y-10">
-                    <!-- Step 1 -->
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">1</div>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Enter Your Address</h3>
-                            <p class="text-gray-600">Start by typing in your address. Your local cleaner’s welcome message pops up right away.</p>
+            </section>
+
+            <!-- Local Connection Section -->
+            <section class="py-16 bg-muted-sky text-deep-graphite fade-in-section">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+                         <div class="text-center md:text-left">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">Built for Bethany Families Who Don't Have Time for Runaround</h2>
+                            <p class="text-lg mb-4">
+                                Clean Quote starts right here in Bethany because we understand the pace of life. Intel deadlines. Nike launches. Late homework sessions. Weekend soccer tournaments.
+                            </p>
+                            <p class="text-lg">
+                                That's why we built the complete booking experience into text messages. No phone calls. No home visits. No scheduling volleyball. Just texts that work around your life, not the other way around.
+                            </p>
+                        </div>
+                        <div class="bg-eggshell p-8 rounded-lg shadow-lg">
+                           <ul class="space-y-4 text-lg">
+                               <li class="flex items-start"><span class="mr-3 text-xl">✅</span> Local Bethany & North Plains cleaners who know the area</li>
+                               <li class="flex items-start"><span class="mr-3 text-xl">✅</span> Complete quote & booking in 60 seconds, not 60 minutes</li>
+                               <li class="flex items-start"><span class="mr-3 text-xl">✅</span> Book with 3 texts, not 3 phone calls</li>
+                               <li class="flex items-start"><span class="mr-3 text-xl">✅</span> More family time, less contractor coordination</li>
+                           </ul>
                         </div>
                     </div>
-                    <!-- Step 2 -->
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">2</div>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Customize Your Quote</h3>
-                            <p class="text-gray-600">Pick the services you need, from a quick refresh to a full deep clean.</p>
+                </div>
+            </section>
+            
+            <!-- Social Proof Section -->
+            <section class="py-16 bg-white fade-in-section">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-deep-graphite mb-12">What Bethany Families Are Saying</h2>
+                    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div class="bg-eggshell p-6 rounded-lg border border-warm-sand/50">
+                            <p class="text-deep-graphite/80 italic mb-4">"This is genius! No phone tag, no 'let me call you back.' I texted during my lunch break and had a cleaner booked for Saturday in literally one minute."</p>
+                            <p class="font-semibold text-deep-graphite">- Sarah M., Bethany</p>
+                        </div>
+                        <div class="bg-eggshell p-6 rounded-lg border border-warm-sand/50">
+                            <p class="text-deep-graphite/80 italic mb-4">"Finally, a cleaning service that gets it. No apps, no websites, no endless back-and-forth. Just texting like I do all day anyway. And the cleaner was fantastic."</p>
+                            <p class="font-semibold text-deep-graphite">- Mike & Jennifer L., North Plains</p>
+                        </div>
+                        <div class="bg-eggshell p-6 rounded-lg border border-warm-sand/50">
+                            <p class="text-deep-graphite/80 italic mb-4">"I was dreading the usual cleaning service runaround - the home visits, the callbacks, the 'flexible' scheduling. This was refreshingly fast and straightforward."</p>
+                            <p class="font-semibold text-deep-graphite">- The Rodriguez Family, Bethany</p>
                         </div>
                     </div>
-                    <!-- Step 3 -->
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">3</div>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Upload Photos</h3>
-                            <p class="text-gray-600">Snap a few pictures of your home so we can give you the most accurate quote possible.</p>
-                        </div>
+                </div>
+            </section>
+            
+            <!-- Service Area Section -->
+            <section class="py-16 bg-eggshell fade-in-section">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-graphite mb-4">Proudly Serving Bethany & North Plains</h2>
+                    <div class="text-lg text-deep-graphite/80">
+                        <p><strong>Bethany</strong> (97229)</p>
+                        <p><strong>North Plains</strong> (97291, 97133)</p>
                     </div>
-                    <!-- Step 4 -->
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">4</div>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-1 text-gray-800">Schedule & Secure Your Spot</h3>
-                            <p class="text-gray-600">Choose a time that works for your family and pay your deposit to lock it in.</p>
-                        </div>
-                    </div>
-                    <!-- Step 5 -->
-                    <div class="flex items-start space-x-4 md:col-span-2 md:justify-center">
-                         <div class="flex items-start space-x-4 max-w-md">
-                            <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 border-2 border-brand-orange text-brand-orange font-bold text-xl rounded-md">5</div>
+                    <p class="mt-4 text-deep-graphite/60">Expanding throughout Washington County soon. Want us in your neighborhood? Text and let us know!</p>
+                </div>
+            </section>
+
+
+            <!-- Pricing Section -->
+            <section class="py-16 bg-white fade-in-section">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-deep-graphite mb-12">Transparent Pricing, No Games</h2>
+                    <div class="max-w-4xl mx-auto bg-eggshell p-8 rounded-lg shadow-md border border-warm-sand/30">
+                        <div class="grid md:grid-cols-2 gap-8">
                             <div>
-                                <h3 class="text-xl font-semibold mb-1 text-gray-800">Click Done & Relax</h3>
-                                <p class="text-gray-600">That’s it. We’ll take it from here — your Bethany home is in good hands.</p>
+                                <h3 class="text-2xl font-semibold mb-4 text-warm-sand">How We Price</h3>
+                                <ul class="list-disc pl-5 space-y-2 text-deep-graphite/90">
+                                    <li><strong>Standard Clean:</strong> Based on your home's square footage</li>
+                                    <li><strong>Deep Clean:</strong> 30% more than standard</li>
+                                    <li><strong>Move-Out Clean:</strong> 75% more than standard</li>
+                                </ul>
+                                <p class="mt-4 text-sm text-deep-graphite/70">Prices include everything - supplies, equipment, 2-person cleaning team. Minimum $75.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-semibold mb-4 text-warm-sand">Real Examples</h3>
+                                <ul class="space-y-2 text-deep-graphite/90">
+                                    <li><strong>1,200 sq ft home:</strong> $96 standard, $125 deep, $168 move-out</li>
+                                    <li><strong>2,000 sq ft home:</strong> $160 standard, $208 deep, $280 move-out</li>
+                                    <li><strong>3,000 sq ft home:</strong> $240 standard, $312 deep, $420 move-out</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                 <div class="text-center mt-12">
-                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
-                        Let's Get Started
-                    </a>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Why Bethany Families Trust Us Section -->
-        <section class="py-16 md:py-24 fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-                    <div class="prose lg:prose-lg text-gray-600">
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Built for Bethany, With Bethany Families in Mind</h2>
-                        <p>Clean Quote is starting right here in Bethany — because no one understands the pace of life here better. We know the long hours at Intel, Nike, or Columbia Sportswear. We know the late-night homework sessions, the weekend soccer games, and the music recitals.</p>
-                        <p>That’s why we’re connecting families with local housekeepers who care about your home as much as you do. Each pro is handpicked, community-based, and committed to helping your family breathe a little easier.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-                        <ul class="space-y-4">
-                            <li class="flex items-start">
-                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0s;">🏠</span>
-                                <span><strong class="text-gray-800">Local Bethany housekeepers,</strong> not strangers from far away</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0.25s;">✅</span>
-                                <span><strong class="text-gray-800">Transparent quotes</strong> before you book</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0.5s;">💳</span>
-                                <span><strong class="text-gray-800">Secure deposits</strong> & easy scheduling</span>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-2xl mr-3 inline-block animate-breathe" style="animation-delay: 0.75s;">👨‍👩‍👧</span>
-                                <span><strong class="text-gray-800">More time for family,</strong> less time cleaning</span>
-                            </li>
-                        </ul>
+            <!-- FAQ Section -->
+            <section class="py-16 bg-eggshell fade-in-section">
+                <div class="container mx-auto px-6 max-w-3xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-deep-graphite mb-12">Quick Questions</h2>
+                    <div class="space-y-4">
+                        <details class="faq-item bg-white p-4 rounded-lg">
+                            <summary class="flex justify-between items-center font-semibold">
+                                How do you know my square footage?
+                                <span class="icon text-warm-sand text-2xl font-thin">+</span>
+                            </summary>
+                            <p class="mt-2 text-deep-graphite/80">We look it up automatically using your address. If we can't find it, we'll ask you directly.</p>
+                        </details>
+                        <details class="faq-item bg-white p-4 rounded-lg">
+                            <summary class="flex justify-between items-center font-semibold">
+                                What if I need to reschedule?
+                                <span class="icon text-warm-sand text-2xl font-thin">+</span>
+                            </summary>
+                            <p class="mt-2 text-deep-graphite/80">Just text us! We're flexible - life happens.</p>
+                        </details>
+                        <details class="faq-item bg-white p-4 rounded-lg">
+                            <summary class="flex justify-between items-center font-semibold">
+                                How do I pay?
+                                <span class="icon text-warm-sand text-2xl font-thin">+</span>
+                            </summary>
+                            <p class="mt-2 text-deep-graphite/80">We send a secure payment link when you book. Never enter card info in texts.</p>
+                        </details>
+                        <details class="faq-item bg-white p-4 rounded-lg">
+                            <summary class="flex justify-between items-center font-semibold">
+                                What if I'm not happy?
+                                <span class="icon text-warm-sand text-2xl font-thin">+</span>
+                            </summary>
+                             <p class="mt-2 text-deep-graphite/80">Text us within 24 hours and we'll make it right, guaranteed.</p>
+                        </details>
+                         <details class="faq-item bg-white p-4 rounded-lg">
+                            <summary class="flex justify-between items-center font-semibold">
+                                Do you bring supplies?
+                                <span class="icon text-warm-sand text-2xl font-thin">+</span>
+                            </summary>
+                             <p class="mt-2 text-deep-graphite/80">Yes, we bring everything needed for a complete clean.</p>
+                        </details>
                     </div>
                 </div>
-                <div class="text-center mt-16">
-                    <a href="https://www.cleanquote.co" class="inline-block bg-brand-orange text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-brand-orange-dark hover:-translate-y-0.5 transform transition-all duration-300 ease-in-out">
-                        Book a Trusted Cleaner
+            </section>
+            
+            <!-- Final CTA Section -->
+            <section class="py-20 bg-muted-sky fade-in-section">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-graphite mb-4">Ready for the Easiest Booking Ever?</h2>
+                    <p class="text-lg text-deep-graphite/80 max-w-2xl mx-auto mb-8">Bethany families deserve simple solutions that work around their busy lives. Get quoted, booked, and scheduled in the next 60 seconds.</p>
+                     <a href="sms:9714021326?&body=CLEAN" class="inline-block bg-deep-graphite text-eggshell font-bold py-4 px-8 rounded-lg text-lg hover:bg-warm-sand hover:text-deep-graphite transition-all transform hover:scale-105 shadow-lg">
+                        📱 Text CLEAN to 971-402-1326
                     </a>
+                    <p class="mt-4 text-deep-graphite/90">Seriously, it's that fast.</p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Testimonials Section -->
-        <section class="py-16 md:py-24 bg-brand-gray-light fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12 max-w-2xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">What Bethany Families Are Saying</h2>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100">
-                        <p class="text-gray-600 italic mb-4">"Absolutely life-changing. We got our weekends back! The cleaner was professional, thorough, and so friendly. It feels like we have a partner in keeping our home running smoothly."</p>
-                        <p class="font-semibold text-gray-800">- The Johnson Family</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-100">
-                        <p class="text-gray-600 italic mb-4">"As two full-time working parents, this service has been a lifesaver. The booking process was incredibly simple, and the peace of mind is priceless. Highly recommend!"</p>
-                        <p class="font-semibold text-gray-800">- The Patels</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
 
-        <!-- Closing CTA Section -->
-        <section class="py-20 md:py-32 bg-brand-teal-dark text-white text-center fade-in-section">
-            <div class="container mx-auto px-6">
-                 <div class="max-w-3xl mx-auto">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-4">A Cleaner Home, More Time Together.</h2>
-                    <p class="text-lg md:text-xl text-gray-300 mb-8">
-                        Bethany families deserve both — and now you can have it without the hassle. Get started today with just your address and a couple photos.
-                    </p>
-                    <a href="https://www.cleanquote.co" class="inline-block bg-white text-brand-teal-dark font-bold text-lg px-8 py-3 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transform transition-all duration-300 ease-in-out">
-                        I Want Both!
-                    </a>
+        <!-- Terms of Service Page Content -->
+        <div id="terms-content" class="page-content">
+            <div class="container mx-auto px-6 py-16 max-w-4xl">
+                <h1 class="text-3xl font-bold mb-6">Bethany Clean Quote - Terms of Service</h1>
+                <div class="prose max-w-none text-deep-graphite/90">
+                    <p class="font-semibold">Effective Date: September 11, 2025</p>
+                    <p>Welcome to Bethany Clean Quote ("we," "us," or "our"). These Terms of Service ("Terms") govern your use of our SMS-based cleaning quote and booking service.</p>
+                    
+                    <h3 class="font-semibold mt-4">1. ACCEPTANCE OF TERMS</h3>
+                    <p>By texting "CLEAN" to 971-402-1326 or otherwise using our service, you agree to these Terms and our Privacy Policy.</p>
+                    
+                    <h3 class="font-semibold mt-4">2. DESCRIPTION OF SERVICE</h3>
+                    <p>Bethany Clean Quote provides instant cleaning quotes and booking through SMS text messaging. We serve residential properties in Bethany (97229) and North Plains (97291, 97133), Oregon.</p>
+                    
+                    <h3 class="font-semibold mt-4">3. SMS MESSAGING TERMS</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Opt-In:</strong> By texting "CLEAN" to 971-402-1326, you consent to receive SMS messages from Bethany Clean Quote.</li>
+                        <li><strong>Message Frequency:</strong> You may receive up to 10 messages per booking conversation.</li>
+                        <li>Standard messaging and data rates apply - check with your wireless carrier.</li>
+                        <li><strong>Opt-Out:</strong> Reply STOP at any time to discontinue messages.</li>
+                        <li><strong>Help:</strong> Reply HELP for customer support.</li>
+                        <li><strong>Supported Carriers:</strong> All major US wireless carriers are supported.</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">4. PRICING AND PAYMENT</h3>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li>Quotes are provided instantly based on property square footage.</li>
+                        <li>Final pricing is confirmed before booking.</li>
+                        <li>A deposit may be required to secure booking.</li>
+                        <li>Payment is processed through secure third-party payment processors.</li>
+                        <li>All prices include supplies and equipment.</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">5. SERVICE AREAS</h3>
+                    <p>We currently serve:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Bethany, Oregon (ZIP code 97229)</li>
+                        <li>North Plains, Oregon (ZIP codes 97291, 97133)</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">6. BOOKING AND CANCELLATION</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Bookings are confirmed upon payment of required deposit.</li>
+                        <li>Cancellations must be made at least 24 hours in advance.</li>
+                        <li>Same-day cancellations may incur fees.</li>
+                        <li>Rescheduling is available subject to availability.</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">7. PROPERTY ACCESS AND SAFETY</h3>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li>Customer must provide safe access to property.</li>
+                        <li>Pets must be secured during cleaning.</li>
+                        <li>Valuable or fragile items should be secured by customer.</li>
+                        <li>We reserve the right to refuse service for unsafe conditions.</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">8. LIABILITY AND WARRANTIES</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Services provided "as is" without warranties.</li>
+                        <li>Our liability is limited to the amount paid for services.</li>
+                        <li>We maintain appropriate business insurance.</li>
+                        <li>Customer is responsible for securing personal property.</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">9. CUSTOMER SATISFACTION</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>We guarantee customer satisfaction.</li>
+                        <li>Issues must be reported within 24 hours of service completion.</li>
+                        <li>We will return to address any legitimate concerns at no charge.</li>
+                    </ul>
+                    
+                    <h3 class="font-semibold mt-4">10. INTELLECTUAL PROPERTY</h3>
+                    <p>All content, trademarks, and intellectual property remain our property.</p>
+
+                    <h3 class="font-semibold mt-4">11. PRIVACY</h3>
+                    <p>Your privacy is important to us. Please review our <a href="#privacy" class="nav-link text-warm-sand underline">Privacy Policy</a> for information about data collection and use.</p>
+
+                    <h3 class="font-semibold mt-4">12. MODIFICATIONS</h3>
+                    <p>We may update these Terms at any time. Changes will be posted on our website and effective immediately.</p>
+
+                    <h3 class="font-semibold mt-4">13. GOVERNING LAW</h3>
+                    <p>These Terms are governed by Oregon state law.</p>
+
+                    <h3 class="font-semibold mt-4">14. CONTACT INFORMATION</h3>
+                    <p>Bethany Clean Quote<br>6100 NE Croeni, Ste 100<br>Hillsboro, OR 97124<br>Phone: 971-402-1326<br>Email: support@bethanycleanquote.com</p>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- Privacy Policy Page Content -->
+        <div id="privacy-content" class="page-content">
+            <div class="container mx-auto px-6 py-16 max-w-4xl">
+                <h1 class="text-3xl font-bold mb-6">Bethany Clean Quote - Privacy Policy</h1>
+                <div class="prose max-w-none text-deep-graphite/90">
+                    <p class="font-semibold">Effective Date: September 11, 2025</p>
+                    <p>Bethany Clean Quote ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our SMS-based cleaning service.</p>
+                    
+                    <h3 class="font-semibold mt-4">1. INFORMATION WE COLLECT</h3>
+                    <p><strong>Information You Provide:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Phone number (when you text us)</li>
+                        <li>Home address (for quotes and service)</li>
+                        <li>Zip code (to verify service area)</li>
+                        <li>Name and contact information (for booking)</li>
+                        <li>Payment information (processed securely by third parties)</li>
+                    </ul>
+                    <p class="mt-2"><strong>Information We Automatically Collect:</strong></p>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li>SMS message content and timestamps</li>
+                        <li>Property details from public databases (square footage, etc.)</li>
+                        <li>Service preferences and history</li>
+                    </ul>
+                     <p class="mt-2"><strong>Information We Do NOT Collect:</strong></p>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li>We do not collect sensitive personal information beyond what's necessary for our service.</li>
+                        <li>We do not track your location beyond the address you provide.</li>
+                        <li>We do not store credit card information (handled by secure payment processors).</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">2. HOW WE USE YOUR INFORMATION</h3>
+                    <p>We use your information to:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Provide cleaning quotes and schedule services</li>
+                        <li>Process payments and send confirmations</li>
+                        <li>Communicate about your bookings via SMS</li>
+                        <li>Improve our services</li>
+                        <li>Comply with legal requirements</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">3. SMS MESSAGING PRACTICES</h3>
+                    <p><strong>Message Types:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Service quotes and confirmations</li>
+                        <li>Scheduling and reminder messages</li>
+                        <li>Customer service responses</li>
+                        <li>Occasional service updates (you can opt out)</li>
+                    </ul>
+                     <p class="mt-2"><strong>Consent:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>You consent to SMS messages by texting "CLEAN" to 971-402-1326.</li>
+                        <li>You can opt out anytime by replying "STOP".</li>
+                        <li>Standard messaging rates apply.</li>
+                    </ul>
+                     <p class="mt-2"><strong>Message Frequency:</strong></p>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li>Varies based on your usage, typically 5-10 messages per booking.</li>
+                        <li>No marketing messages without explicit consent.</li>
+                    </ul>
+                    
+                    <h3 class="font-semibold mt-4">4. INFORMATION SHARING</h3>
+                    <p>We DO NOT sell, rent, or trade your personal information. We may share information with:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Cleaning service providers (only information necessary to complete your service)</li>
+                        <li>Payment processors (for secure payment processing)</li>
+                        <li>Legal authorities (if required by law)</li>
+                    </ul>
+                    <p class="mt-2">We use third-party services for:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>SMS messaging (Twilio)</li>
+                        <li>Payment processing (Stripe)</li>
+                        <li>Property data (RentCast)</li>
+                    </ul>
+                    <p>All third parties are contractually obligated to protect your information.</p>
+                    
+                    <h3 class="font-semibold mt-4">5. DATA SECURITY</h3>
+                    <p>We implement appropriate security measures to protect your information:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Encrypted data transmission</li>
+                        <li>Secure data storage</li>
+                        <li>Limited access to personal information</li>
+                        <li>Regular security assessments</li>
+                    </ul>
+
+                    <h3 class="font-semibold mt-4">6. DATA RETENTION</h3>
+                    <p>We retain your information:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>For active customers: as long as needed to provide services.</li>
+                        <li>For former customers: up to 7 years for business and tax purposes.</li>
+                        <li>SMS message history: up to 2 years.</li>
+                    </ul>
+                    <p>You may request deletion of your data (subject to legal requirements).</p>
+
+                     <h3 class="font-semibold mt-4">7. YOUR RIGHTS</h3>
+                     <p>You have the right to:</p>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li>Access your personal information</li>
+                        <li>Correct inaccurate information</li>
+                        <li>Request deletion of your data</li>
+                        <li>Opt out of SMS messages (reply "STOP")</li>
+                        <li>File complaints about privacy practices</li>
+                     </ul>
+
+                     <h3 class="font-semibold mt-4">8. CHILDREN'S PRIVACY</h3>
+                     <p>Our service is not intended for children under 13. We do not knowingly collect information from children.</p>
+
+                     <h3 class="font-semibold mt-4">9. CALIFORNIA PRIVACY RIGHTS</h3>
+                     <p>California residents have additional rights under CCPA:</p>
+                      <ul class="list-disc pl-5 space-y-1">
+                        <li>Right to know what personal information we collect</li>
+                        <li>Right to delete personal information</li>
+                        <li>Right to opt out of sale of personal information (we don't sell information)</li>
+                        <li>Right to non-discrimination for exercising privacy rights</li>
+                     </ul>
+
+                    <h3 class="font-semibold mt-4">10. CHANGES TO PRIVACY POLICY</h3>
+                    <p>We may update this Privacy Policy periodically. Changes will be posted on our website with an updated effective date.</p>
+
+                    <h3 class="font-semibold mt-4">11. CONTACT US</h3>
+                    <p>For privacy questions or requests:<br>Bethany Clean Quote<br>6100 NE Croeni, Ste 100<br>Hillsboro, OR 97124<br>Phone: 971-402-1326<br>Email: support@bethanycleanquote.com</p>
+                    <p>For SMS-related questions, reply "HELP" to any message or call 971-402-1326.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SMS Terms Page Content -->
+        <div id="sms-terms-content" class="page-content">
+            <div class="container mx-auto px-6 py-16 max-w-4xl">
+                <h1 class="text-3xl font-bold mb-6">SMS Messaging Terms</h1>
+                <div class="prose max-w-none text-deep-graphite/90 bg-white p-8 rounded-lg shadow-md">
+                    <ul class="space-y-3">
+                        <li><strong>Program Description:</strong> Bethany Clean Quote SMS service provides instant cleaning quotes and booking via text messaging.</li>
+                        <li><strong>To Join:</strong> Text "CLEAN" to 971-402-1326</li>
+                        <li><strong>To Stop:</strong> Reply "STOP" to any message. You'll receive a confirmation message.</li>
+                        <li><strong>For Help:</strong> Reply "HELP" or call 971-402-1326</li>
+                        <li><strong>Message Frequency:</strong> Varies based on usage, typically 5-10 messages per booking conversation.</li>
+                        <li><strong>Message & Data Rates:</strong> Standard messaging and data rates may apply. Check with your wireless carrier.</li>
+                        <li><strong>Supported Carriers:</strong> All major U.S. wireless carriers including Verizon, AT&T, T-Mobile, Sprint, and others.</li>
+                        <li><strong>Compatible Devices:</strong> Any mobile device capable of receiving SMS text messages.</li>
+                        <li><strong>Privacy Policy:</strong> Your privacy is important to us. View our full <a href="#privacy" class="nav-link text-warm-sand underline">Privacy Policy</a>.</li>
+                         <li><strong>Terms of Service:</strong> By participating, you agree to our full <a href="#terms" class="nav-link text-warm-sand underline">Terms of Service</a>.</li>
+                         <li><strong>Customer Care:</strong> Call 971-402-1326 or email support@bethanycleanquote.com for support.</li>
+                         <li><strong>Service Areas:</strong> Currently serving Bethany (97229) and North Plains (97291, 97133), Oregon.</li>
+                         <li>&copy; 2025 Bethany Clean Quote. All rights reserved.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
     </main>
-
+    
     <!-- Footer -->
-    <footer class="bg-brand-gray-light text-center py-8">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col items-center space-y-4">
-                <p class="text-gray-600">Proudly serving Bethany families.</p>
-                <div class="flex items-center space-x-2 text-gray-500">
-                    <span>Powered by</span>
-                    <a href="https://www.cleanquote.co" target="_blank" rel="noopener noreferrer">
-                        <img src="https://placehold.co/120x30/0B2D39/FFFFFF?text=Clean+Quote" alt="Clean Quote Logo" 
-                             onerror="this.onerror=null; this.src='https://placehold.co/120x30/0B2D39/FFFFFF?text=Clean+Quote';"
-                             class="h-6 opacity-80 hover:opacity-100 transition-opacity">
-                    </a>
+    <footer class="bg-deep-graphite text-eggshell/70">
+        <div class="container mx-auto px-6 py-12">
+            <div class="text-center md:text-left mb-8">
+                <!-- LOGO PLACEHOLDER -->
+                <img src="clean-quote-logo.jpg" alt="Bethany Clean Quote Logo" class="h-10 w-auto inline-block md:inline">
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <h3 class="text-lg font-semibold text-eggshell mb-4">Contact</h3>
+                    <p>Bethany Clean Quote</p>
+                    <p>6100 NE Croeni, Ste 100</p>
+                    <p>Hillsboro, OR 97124</p>
+                    <p>971-402-1326</p>
                 </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-eggshell mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#terms" class="nav-link hover:text-warm-sand transition">Terms of Service</a></li>
+                        <li><a href="#privacy" class="nav-link hover:text-warm-sand transition">Privacy Policy</a></li>
+                        <li><a href="#sms-terms" class="nav-link hover:text-warm-sand transition">SMS Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-eggshell mb-4">Service Area</h3>
+                    <p>Bethany (97229)</p>
+                    <p>North Plains (97291, 97133)</p>
+                </div>
+            </div>
+            <div class="text-center mt-12 border-t border-eggshell/20 pt-8">
+                <p>&copy; 2025 Bethany Clean Quote. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // JavaScript for scroll animations
         document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.fade-in-section');
+            // --- Loading Animation ---
+            const loader = document.getElementById('loader');
+            window.addEventListener('load', () => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            });
 
-            const observer = new IntersectionObserver(entries => {
+            // --- Mobile Menu ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Page Navigation ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageContents = document.querySelectorAll('.page-content');
+            const mainContent = document.getElementById('main-content');
+            const header = document.getElementById('header');
+
+            function showPage(pageId) {
+                pageContents.forEach(content => {
+                    if (`#${content.id.replace('-content', '')}` === pageId) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+                window.scrollTo(0, 0);
+                mobileMenu.classList.add('hidden'); // Close mobile menu on navigation
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    history.pushState(null, '', targetId);
+                    showPage(targetId);
+                });
+            });
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', () => {
+                const hash = window.location.hash || '#home';
+                showPage(hash);
+            });
+
+            // Show initial page based on URL hash
+            const initialHash = window.location.hash || '#home';
+            showPage(initialHash);
+            
+            // --- Scroll Animations ---
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
+                        entry.target.classList.add('visible');
                         observer.unobserve(entry.target);
                     }
                 });
-            }, {
-                threshold: 0.1 // Trigger when 10% of the element is visible
-            });
+            }, { threshold: 0.1 });
 
-            sections.forEach(section => {
+            document.querySelectorAll('.fade-in-section').forEach(section => {
                 observer.observe(section);
             });
         });
     </script>
-
 </body>
 </html>
+
+
+
