@@ -96,15 +96,14 @@
     <!-- Header & Navigation -->
     <header id="header" class="bg-eggshell/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="nav-link">
-                <!-- LOGO PLACEHOLDER -->
+            <a href="#home" class="nav-link" data-target="home-content">
                 <img src="clean-quote-logo.jpg" alt="Bethany Clean Quote Logo" class="h-8 w-auto">
                 <span class="sr-only">Bethany Clean Quote</span>
             </a>
             <nav class="hidden md:flex space-x-6">
-                <a href="#home" class="nav-link text-deep-graphite hover:text-warm-sand transition">Home</a>
-                <a href="#terms" class="nav-link text-deep-graphite hover:text-warm-sand transition">Terms</a>
-                <a href="#privacy" class="nav-link text-deep-graphite hover:text-warm-sand transition">Privacy</a>
+                <a href="#home" class="nav-link text-deep-graphite hover:text-warm-sand transition" data-target="home-content">Home</a>
+                <a href="#terms" class="nav-link text-deep-graphite hover:text-warm-sand transition" data-target="terms-content">Terms</a>
+                <a href="#privacy" class="nav-link text-deep-graphite hover:text-warm-sand transition" data-target="privacy-content">Privacy</a>
             </nav>
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-deep-graphite">
@@ -116,9 +115,9 @@
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#home" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition">Home</a>
-            <a href="#terms" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition">Terms</a>
-            <a href="#privacy" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition">Privacy</a>
+            <a href="#home" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition" data-target="home-content">Home</a>
+            <a href="#terms" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition" data-target="terms-content">Terms</a>
+            <a href="#privacy" class="nav-link block py-2 text-deep-graphite hover:text-warm-sand transition" data-target="privacy-content">Privacy</a>
         </div>
     </header>
 
@@ -405,7 +404,7 @@
                     <p>All content, trademarks, and intellectual property remain our property.</p>
 
                     <h3 class="font-semibold mt-4">11. PRIVACY</h3>
-                    <p>Your privacy is important to us. Please review our <a href="#privacy" class="nav-link text-warm-sand underline">Privacy Policy</a> for information about data collection and use.</p>
+                    <p>Your privacy is important to us. Please review our <a href="#privacy" class="nav-link text-warm-sand underline" data-target="privacy-content">Privacy Policy</a> for information about data collection and use.</p>
 
                     <h3 class="font-semibold mt-4">12. MODIFICATIONS</h3>
                     <p>We may update these Terms at any time. Changes will be posted on our website and effective immediately.</p>
@@ -558,8 +557,8 @@
                         <li><strong>Message & Data Rates:</strong> Standard messaging and data rates may apply. Check with your wireless carrier.</li>
                         <li><strong>Supported Carriers:</strong> All major U.S. wireless carriers including Verizon, AT&T, T-Mobile, Sprint, and others.</li>
                         <li><strong>Compatible Devices:</strong> Any mobile device capable of receiving SMS text messages.</li>
-                        <li><strong>Privacy Policy:</strong> Your privacy is important to us. View our full <a href="#privacy" class="nav-link text-warm-sand underline">Privacy Policy</a>.</li>
-                         <li><strong>Terms of Service:</strong> By participating, you agree to our full <a href="#terms" class="nav-link text-warm-sand underline">Terms of Service</a>.</li>
+                        <li><strong>Privacy Policy:</strong> Your privacy is important to us. View our full <a href="#privacy" class="nav-link text-warm-sand underline" data-target="privacy-content">Privacy Policy</a>.</li>
+                         <li><strong>Terms of Service:</strong> By participating, you agree to our full <a href="#terms" class="nav-link text-warm-sand underline" data-target="terms-content">Terms of Service</a>.</li>
                          <li><strong>Customer Care:</strong> Call 971-402-1326 or email support@bethanycleanquote.com for support.</li>
                          <li><strong>Service Areas:</strong> Currently serving Bethany (97229) and North Plains (97291, 97133), Oregon.</li>
                          <li>&copy; 2025 Bethany Clean Quote. All rights reserved.</li>
@@ -573,8 +572,7 @@
     <!-- Footer -->
     <footer class="bg-deep-graphite text-eggshell/70">
         <div class="container mx-auto px-6 py-12">
-            <div class="text-center md:text-left mb-8">
-                <!-- LOGO PLACEHOLDER -->
+             <div class="text-center md:text-left mb-8">
                 <img src="clean-quote-logo.jpg" alt="Bethany Clean Quote Logo" class="h-10 w-auto inline-block md:inline">
             </div>
             <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
@@ -588,9 +586,9 @@
                 <div>
                     <h3 class="text-lg font-semibold text-eggshell mb-4">Legal</h3>
                     <ul class="space-y-2">
-                        <li><a href="#terms" class="nav-link hover:text-warm-sand transition">Terms of Service</a></li>
-                        <li><a href="#privacy" class="nav-link hover:text-warm-sand transition">Privacy Policy</a></li>
-                        <li><a href="#sms-terms" class="nav-link hover:text-warm-sand transition">SMS Terms</a></li>
+                        <li><a href="#terms" class="nav-link" data-target="terms-content">Terms of Service</a></li>
+                        <li><a href="#privacy" class="nav-link" data-target="privacy-content">Privacy Policy</a></li>
+                        <li><a href="#sms-terms" class="nav-link" data-target="sms-terms-content">SMS Terms</a></li>
                     </ul>
                 </div>
                 <div>
@@ -623,15 +621,13 @@
                 mobileMenu.classList.toggle('hidden');
             });
 
-            // --- Page Navigation ---
+            // --- Page Navigation (Robust Version) ---
             const navLinks = document.querySelectorAll('.nav-link');
             const pageContents = document.querySelectorAll('.page-content');
-            const mainContent = document.getElementById('main-content');
-            const header = document.getElementById('header');
 
-            function showPage(pageId) {
+            function showPage(targetId) {
                 pageContents.forEach(content => {
-                    if (`#${content.id.replace('-content', '')}` === pageId) {
+                    if (content.id === targetId) {
                         content.classList.add('active');
                     } else {
                         content.classList.remove('active');
@@ -644,21 +640,35 @@
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const targetId = link.getAttribute('href');
-                    history.pushState(null, '', targetId);
-                    showPage(targetId);
+                    const targetId = link.dataset.target;
+                    const targetHash = link.getAttribute('href');
+                    if(targetId){
+                        history.pushState({page: targetId}, '', targetHash);
+                        showPage(targetId);
+                    }
                 });
             });
             
             // Handle browser back/forward buttons
-            window.addEventListener('popstate', () => {
-                const hash = window.location.hash || '#home';
-                showPage(hash);
+            window.addEventListener('popstate', (e) => {
+                 if (e.state && e.state.page) {
+                    showPage(e.state.page);
+                } else {
+                    // Fallback for initial page load or manual hash change
+                    const hash = window.location.hash || '#home';
+                    const targetLink = document.querySelector(`.nav-link[href="${hash}"]`);
+                    if(targetLink && targetLink.dataset.target) {
+                        showPage(targetLink.dataset.target);
+                    }
+                }
             });
 
             // Show initial page based on URL hash
             const initialHash = window.location.hash || '#home';
-            showPage(initialHash);
+            const initialLink = document.querySelector(`.nav-link[href="${initialHash}"]`);
+            const initialTargetId = initialLink ? initialLink.dataset.target : 'home-content';
+            showPage(initialTargetId);
+            history.replaceState({page: initialTargetId}, '', initialHash);
             
             // --- Scroll Animations ---
             const observer = new IntersectionObserver((entries) => {
@@ -677,6 +687,4 @@
     </script>
 </body>
 </html>
-
-
 
